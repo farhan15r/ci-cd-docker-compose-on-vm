@@ -24,6 +24,8 @@ jobs:
       env:
         RELEASE_VERSION: ${{ steps.vars.outputs.tag }}
       run: |
-        echo $RELEASE_VERSION
-        echo ${{ steps.vars.outputs.tag }}
+        echo "1. $RELEASE_VERSION"
+        echo "2. ${{ steps.vars.outputs.tag }}"
+        echo "3. Tag name from GITHUB_REF_NAME: $GITHUB_REF_NAME"
+        echo "4. Tag name from github.ref_name: ${{  github.ref_name }}"
       # run: docker build . --file Dockerfile --tag farhan15r/ci-cd-docker-compose-on-vm:${{ steps.get_tag.outputs.TAG }}
