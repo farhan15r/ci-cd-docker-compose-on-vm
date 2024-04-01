@@ -45,6 +45,7 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           port: ${{ secrets.SSH_PORT }}
+          envs: VERSION
           script: |
             cd /app
             sed -i "s/image: farhan15r\/ci-cd-test:.*/image: farhan15r\/ci-cd-test:$VERSION/g" compose.yml
