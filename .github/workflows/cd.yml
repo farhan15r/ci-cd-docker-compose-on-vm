@@ -1,0 +1,18 @@
+name: Build and Push Image
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-and-push-image:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Get commit tag
+      id: get_tag
+      run: echo ::set-output name=TAG::${GITHUB_REF#refs/*/}
+    - uses: actions/checkout@v3
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag farhan15r/ci-cd-docker-compose-on-vm:${{ steps.get_tag.outputs.TAG }}
