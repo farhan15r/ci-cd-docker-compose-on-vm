@@ -47,6 +47,7 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           envs: VERSION
           script: |
+            cat $VERSION
             cd /app
             sed -i "s/image: farhan15r\/ci-cd-test:.*/image: farhan15r\/ci-cd-test:$VERSION/g" compose.yml
             cat compose.yml
