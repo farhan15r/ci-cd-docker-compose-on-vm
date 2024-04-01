@@ -15,9 +15,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-
-    - name: Set Version
+    - name: Set version from tag
       id: version
-      run: |
-        echo "VERSION=$(echo ${GITHUB_REF} | sed -n 's/refs\/tags\/v//p')" >> $GITHUB_ENV
-        echo "VERSION=${VERSION}" >> $GITHUB_ENV
+      run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/v}
