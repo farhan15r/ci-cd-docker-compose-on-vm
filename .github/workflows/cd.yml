@@ -15,7 +15,7 @@ jobs:
 
       - name: Get tag version
         run: echo "VERSION=$(echo $GITHUB_REF | cut -d '/' -f 3)" >> $GITHUB_ENV
-        
+
       - name: Build and push Docker image
         run: |
-          docker build -t my-docker-image:${{ vars.VERSION }} .
+          docker build -t my-docker-image:$VERSION .
