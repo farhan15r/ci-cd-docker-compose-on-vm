@@ -39,7 +39,7 @@ jobs:
       - name: Update Docker Compose via SSH
         uses: appleboy/ssh-action@v1.0.3
         env:
-          VERSION: ${{ env.VERSION }}
+          VERSION: v2.2.2
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
