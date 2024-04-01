@@ -5,19 +5,19 @@ on:
     tags:
       - 'v**'
 
-env:
-  VERSION: ${{ github.ref }}
-
 jobs:
   build:
     runs-on: ubuntu-latest
+    outputs:
+      VERSION: ${{ steps.get_version.outputs.VERSION }}
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
       - name: Get tag version
-        run: echo "VERSION=$(echo $GITHUB_REF | cut -d '/' -f 3)" >> $GITHUB_ENV
+        id: get_version
+        run: echo "VERSION=$(echo $GITHUB_REF | cut -d '/' -f 3)" >> $GITHUB_OUTPUT
 
       - name: Build Docker image
         run: docker build -t farhan15r/ci-cd-test:$VERSION .
@@ -39,7 +39,7 @@ jobs:
       - name: Update Docker Compose via SSH
         uses: appleboy/ssh-action@v1.0.3
         env:
-          VERSION: ${{ env.VERSION }}
+          VERSION: ${{ needs.build.outputs.VERSION }
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
@@ -47,7 +47,7 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           envs: VERSION
           script: |
-            cat $VERSION
+            echo $VERSION
             cd /app
             sed -i "s/image: farhan15r\/ci-cd-test:.*/image: farhan15r\/ci-cd-test:$VERSION/g" compose.yml
             cat compose.yml
