@@ -3,16 +3,27 @@ name: Build and Push Image
 on:
   push:
     branches: [ "main" ]
+    tags:
+      - "v*.*.*"
   pull_request:
     branches: [ "main" ]
+    tags:
+      - "v*.*.*"
 
 jobs:
   build-and-push-image:
     runs-on: ubuntu-latest
     steps:
-    - name: Get commit tag
-      id: get_tag
-      run: echo ::set-output name=TAG::${GITHUB_REF#refs/*/}
     - uses: actions/checkout@v3
+
+    - name: Set Version
+      id: vars
+      run: echo "tag=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag farhan15r/ci-cd-docker-compose-on-vm:${{ steps.get_tag.outputs.TAG }}
+      env:
+        RELEASE_VERSION: ${{ steps.vars.outputs.tag }}
+      run: |
+        echo $RELEASE_VERSION
+        echo ${{ steps.vars.outputs.tag }}
+      # run: docker build . --file Dockerfile --tag farhan15r/ci-cd-docker-compose-on-vm:${{ steps.get_tag.outputs.TAG }}
