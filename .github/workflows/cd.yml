@@ -20,4 +20,4 @@ jobs:
          echo "Tag name from github.ref_name: ${{  github.ref_name }}"
          VERSION=$(echo "${GITHUB_REF}" | cut -d '/' -f 3)
          echo "Versi dari tag: $VERSION"
-         evho "${GITHUB_REF}"
+         echo "${GITHUB_REF}"
