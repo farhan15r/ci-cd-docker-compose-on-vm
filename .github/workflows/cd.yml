@@ -1,18 +1,22 @@
-name: Build and Push Image
+name: CI/CD
 
 on:
   push:
     tags:
-      - v**
+      - 'v**'
 
 jobs:
-  build-and-push-image:
+  build:
     runs-on: ubuntu-latest
+
     steps:
-    - name: Set version from tag
-      run: |
-         echo "Tag name from GITHUB_REF_NAME: $GITHUB_REF_NAME"
-         echo "Tag name from github.ref_name: ${{  github.ref_name }}"
-         VERSION=$(echo "${GITHUB_REF}" | cut -d '/' -f 3)
-         echo "Versi dari tag: $VERSION"
-         echo "${GITHUB_REF}"
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Get tag version
+        run: |
+          echo "Tag name from GITHUB_REF_NAME: $GITHUB_REF_NAME"
+          echo "Tag name from github.ref_name: ${{  github.ref_name }}"
+          VERSION=$(echo "${GITHUB_REF}" | cut -d '/' -f 3)
+          echo "Versi dari tag: $VERSION"
+          echo "${GITHUB_REF}"
