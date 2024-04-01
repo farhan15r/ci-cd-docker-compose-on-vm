@@ -15,8 +15,9 @@ jobs:
 
       - name: Get tag version
         run: |
-          echo "Tag name from GITHUB_REF_NAME: $GITHUB_REF_NAME"
-          echo "Tag name from github.ref_name: ${{  github.ref_name }}"
           VERSION=$(echo "${GITHUB_REF}" | cut -d '/' -f 3)
-          echo "Versi dari tag: $VERSION"
-          echo "${GITHUB_REF}"
+          ${{ vars.set('VERSION', VERSION) }}
+
+      - name: Build and push Docker image
+        run: |
+          docker build -t my-docker-image:${{ vars.VERSION }} .
