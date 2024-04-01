@@ -24,3 +24,6 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+      
+      - name: Push Docker image
+        run: docker push farhan15r/ci-cd-test:$VERSION
